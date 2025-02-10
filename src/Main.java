@@ -1,8 +1,8 @@
 import java.util.*;
-
+import java.math.BigDecimal;
 public class Main {
   final static Scanner input = new Scanner(System.in);
-
+  private static List<BudgetSheet> allBudgetSheets = new ArrayList<>();
   public static void main(String[] args) {
     System.out.println("Welcome to JavaBalance");
     boolean hasExited = false;
@@ -18,20 +18,21 @@ public class Main {
 
           """;
       System.out.print(userOptions);
+      BudgetSheet test = new BudgetSheet(1);
 
       int option = input.nextInt();
 
       switch (option) {
         case 1:
-          System.out.print("Calling budget sheet method");
+
           createNewBudgetSheet();
           break;
         case 2:
-          System.out.print("View budget sheet method");
+
           viewMyBudgetSheet();
           break;
         case 3:
-          System.out.print("Edit budget sheet method");
+
           editBudgetSheetFields();
           break;
         case 4:
@@ -51,11 +52,73 @@ public class Main {
   }
 
   public static void createNewBudgetSheet() {
+    Scanner input = new Scanner(System.in);
+
     System.out.print("Enter budget sheet name: ");
+    String budgetSheetName = input.nextLine();
+
+    boolean addingFields = true;
+
+
+    //BudgetSheet newBudgetSheet = new BudgetSheet(budgetSheetName);
+
+    while (addingFields) {
+      System.out.print("Enter the type (income/expenses): ");
+      String type = input.nextLine();
+
+      System.out.print("Enter the name for the income/expense field: ");
+      String name = input.nextLine();
+
+      System.out.print("Enter the amount: ");
+      float amountFloat = input.nextFloat();
+      BigDecimal amount = BigDecimal.valueOf(amountFloat);
+
+      //newBudgetSheet.addField(type, name, amount);
+
+      System.out.print("Would you like to add another field (yes/no)? ");
+      String response = input.next();
+      addingFields = response.equalsIgnoreCase("yes");
+    }
+
+
+    //allBudgetSheets.add(newBudgetSheet);
+    System.out.println("Budget sheet created successfully!");
   }
 
+
   public static void viewMyBudgetSheet() {
-    System.out.print("Enter budget sheet name: ");
+    System.out.print("Enter budget sheet name to view: ");
+    Scanner input = new Scanner(System.in);
+    String sheetName = input.nextLine();
+
+    ArrayList<BudgetSheet> sheets = BudgetSheet.find(sheetName);
+
+    if (sheets.isEmpty()) {
+      System.out.println("No budget sheets found.");
+    } else {
+      BigDecimal totalIncome = BigDecimal.ZERO;
+      BigDecimal totalExpense = BigDecimal.ZERO;
+
+      System.out.println("Income Fields:");
+      for (BudgetSheet sheet : sheets) {
+        if (sheet.type.equals("income")) {
+          System.out.println("Name: " + sheet.title + ", Amount: " + sheet.amount);
+          totalIncome = totalIncome.add(sheet.amount);
+        }
+      }
+
+      System.out.println("Expense Fields:");
+      for (BudgetSheet sheet : sheets) {
+        if (sheet.type.equals("expenses")) {
+          System.out.println("Name: " + sheet.title + ", Amount: " + sheet.amount);
+          totalExpense = totalExpense.add(sheet.amount);
+        }
+      }
+
+      System.out.println("Total Income: " + totalIncome);
+      System.out.println("Total Expenses: " + totalExpense);
+      System.out.println("Net Balance: " + totalIncome.subtract(totalExpense));
+    }
   }
 
   public static void editBudgetSheetFields() {

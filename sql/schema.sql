@@ -4,3 +4,5 @@ CREATE TABLE transactions (
     name VARCHAR(50),
     amount MONEY
 );
+
+
