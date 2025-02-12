@@ -12,12 +12,12 @@ public class Main {
     while (!hasExited) {
       System.out.print("Here are your options:\n");
       String userOptions = """
-                    1. Create A New Budget Sheet
-                    2. View My Budget Sheets
-                    3. Edit Budget Sheet Fields
-                    4. Help
-                    5. Exit Program
-                    """;
+          1. Create A New Budget Sheet
+          2. View My Budget Sheets
+          3. Edit Budget Sheet Fields
+          4. Help
+          5. Exit Program
+          """;
       System.out.print(userOptions);
 
       String optionString = input.nextLine();
@@ -67,14 +67,11 @@ public class Main {
       System.out.print("Enter the amount: ");
       float amountFloat = input.nextFloat();
       BigDecimal amount = BigDecimal.valueOf(amountFloat);
-      input.nextLine();
-
 
       String priority = null;
       if ("expenses".equalsIgnoreCase(type)) {
         System.out.print("Enter the priority (Need/Want/Savings): ");
         priority = input.nextLine();
-
 
         if (!priority.equals("Need") && !priority.equals("Want") && !priority.equals("Savings")) {
           System.out.println("Invalid priority. It must be one of: Need, Want, Savings.");
@@ -82,10 +79,8 @@ public class Main {
         }
       }
 
-
       BudgetSheet newField = new BudgetSheet(type, name, amount, priority, budgetSheetName);
       newField.save();
-
 
       System.out.print("Would you like to add another field (yes/no)? ");
       String response = input.nextLine();
@@ -95,20 +90,12 @@ public class Main {
     System.out.println("Budget sheet created successfully!");
   }
 
-
-
-
   public static void viewMyBudgetSheet() {
     System.out.print("Enter budget sheet name to view: ");
 
     String budgetSheetName = input.nextLine();
 
-
     ArrayList<BudgetSheet> sheets = BudgetSheet.find(budgetSheetName);
-
-
-
-
 
     if (sheets.isEmpty()) {
       System.out.println("No budget sheet found with the name: " + budgetSheetName);
@@ -140,11 +127,9 @@ public class Main {
     }
   }
 
-
   public static void editBudgetSheetFields() {
     System.out.print("Enter budget sheet name to edit: ");
     String sheetName = input.nextLine();
-
 
     ArrayList<BudgetSheet> sheets = BudgetSheet.find(sheetName);
 
@@ -209,28 +194,23 @@ public class Main {
     }
   }
 
-
   public static void help() {
     final String help = """
-                | 1. Create A New Budget Sheet
-                Upon selection, this option will ask the user
-                to give a new name for their budget sheet. After that,
-                an empty table will be displayed showing column headings
-                'Type,' 'Title,' and 'Amount.' These are the two types of fields
-                the user will be able to create, read, update, and delete.
-                Income example:
-                An example of an income could look like a weekly paycheck.
-                The user could give that field a name of 'Paycheck', the amount ($300).
-                An example of an expense could be 'Gas Money'.
-                The user could give that field a name of 'Expenses', the cost ($45),
-                and the priority of the Expense.
-                The priority field ranges from 3 different types:
-                1. Need, 2. Want, and 3. Savings.
-                """;
+        | 1. Create A New Budget Sheet
+        Upon selection, this option will ask the user
+        to give a new name for their budget sheet. After that,
+        an empty table will be displayed showing column headings
+        'Type,' 'Title,' and 'Amount.' These are the two types of fields
+        the user will be able to create, read, update, and delete.
+        Income example:
+        An example of an income could look like a weekly paycheck.
+        The user could give that field a name of 'Paycheck', the amount ($300).
+        An example of an expense could be 'Gas Money'.
+        The user could give that field a name of 'Expenses', the cost ($45),
+        and the priority of the Expense.
+        The priority field ranges from 3 different types:
+        1. Need, 2. Want, and 3. Savings.
+        """;
     System.out.print(help);
   }
 }
-
-
-
-
